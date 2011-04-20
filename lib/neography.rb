@@ -22,22 +22,23 @@ require 'json'
 require 'logger'
 require 'ostruct'
 
-require 'ext/object.rb'
-require 'neography/config'
-require 'neography/rest'
-require 'neography/neography'
+require File.expand_path(File.join(File.dirname(__FILE__), 'ext/object'))
 
-require 'neography/property_container'
-require 'neography/property'
-require 'neography/node_relationship'
-require 'neography/node_path'
-require 'neography/relationship_traverser'
-require 'neography/node_traverser'
-require 'neography/path_traverser'
-require 'neography/equal'
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/config'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/rest'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/neography'))
 
-require 'neography/node'
-require 'neography/relationship'
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/property_container'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/property'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/node_relationship'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/node_path'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/relationship_traverser'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/node_traverser'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/path_traverser'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/equal'))
+
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/node'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'neography/relationship'))
 
 find_and_require_user_defined_code
 

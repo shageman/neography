@@ -1,10 +1,10 @@
 module Neography
-  class Config 
+  class Config
     class << self; attr_accessor :protocol, :server, :port, :directory, :log_file, :log_enabled, :logger, :max_threads, :authentication, :username, :password end
 
     @protocol = 'http://'
     @server = 'localhost'
-    @port = 7474 
+    @port = 7474
     @directory = ''
     @log_file = 'neography.log'
     @log_enabled = false

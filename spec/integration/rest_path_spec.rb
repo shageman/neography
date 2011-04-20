@@ -200,7 +200,7 @@ describe Neography::Rest do
       paths[0]["end"].should == new_node5["self"]
       paths[1]["length"].should == 2
       paths[1]["start"].should == new_node1["self"]
-      paths[1]["end"].should == new_node5["self"]    
+      paths[1]["end"].should == new_node5["self"]
     end
 
   end

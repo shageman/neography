@@ -17,14 +17,14 @@ def graduated_with_me(student)
   student_attended = @neo.get_node_relationships(student)[0]
   graduated = student_attended["data"]["graduated"]
   school = student_attended["end"].split('/').last
- 
-  @neo.traverse(school,"nodes", {"order" => "breadth first", 
-                                          "uniqueness" => "node global", 
-                                          "relationships" => {"type"=> "attended", "direction" => "in"}, 
+
+  @neo.traverse(school,"nodes", {"order" => "breadth first",
+                                          "uniqueness" => "node global",
+                                          "relationships" => {"type"=> "attended", "direction" => "in"},
                                           "return filter" => {
                                             "language" => "javascript",
-                                            "body" => "position.length() == 1  
-                                                       && position.endNode().getId() != #{student} 
+                                            "body" => "position.length() == 1
+                                                       && position.endNode().getId() != #{student}
                                                        && position.lastRelationship().getProperty(\"graduated\") == #{graduated};"}})
 end
 

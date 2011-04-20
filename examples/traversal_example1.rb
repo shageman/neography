@@ -15,13 +15,13 @@ end
 def get_nodes_by_level(level, node)
   starting_id = node["self"].split('/').last
 
-  @neo.traverse(node,"nodes", {"order" => "breadth first", 
-                                          "uniqueness" => "node global", 
-                                          "relationships" => {"type"=> "linked", "direction" => "out"}, 
+  @neo.traverse(node,"nodes", {"order" => "breadth first",
+                                          "uniqueness" => "node global",
+                                          "relationships" => {"type"=> "linked", "direction" => "out"},
                                           "prune evaluator" => {
                                             "language" => "javascript",
-                                            "body" => "position.startNode().hasProperty('NODE_LEVEL') 
-                                                    && position.startNode().getProperty('NODE_LEVEL')==5 
+                                            "body" => "position.startNode().hasProperty('NODE_LEVEL')
+                                                    && position.startNode().getProperty('NODE_LEVEL')==5
                                                     && position.startNode().getId()!=#{starting_id};"},
                                          "return filter" => {
                                             "language" => "javascript",

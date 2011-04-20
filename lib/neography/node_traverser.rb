@@ -30,7 +30,7 @@ module Neography
           rel << Neography::Relationship.new(@from.neo_server.create_relationship(@relationships.first["type"], @from, other_node))
           rel << Neography::Relationship.new(@from.neo_server.create_relationship(@relationships.first["type"], other_node, @from))
       end
-      rel       
+      rel
     end
 
     def both(type)
@@ -100,7 +100,7 @@ module Neography
     end
 
     def each
-      iterator.each do |i| 
+      iterator.each do |i|
         node = Neography::Node.new(i)
         node.neo_server = @from.neo_server
         yield node
@@ -124,11 +124,11 @@ module Neography
           when "out"
             rels.collect { |r| @from.neo_server.get_node(r["end"]) } #.uniq
           else
-            rels.collect { |r| 
+            rels.collect { |r|
             if @from.neo_id == r["start"].split('/').last
-              @from.neo_server.get_node(r["end"]) 
+              @from.neo_server.get_node(r["end"])
             else
-              @from.neo_server.get_node(r["start"]) 
+              @from.neo_server.get_node(r["start"])
             end
             } #.uniq
         end

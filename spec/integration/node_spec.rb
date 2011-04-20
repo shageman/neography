@@ -83,7 +83,7 @@ describe Neography::Node do
   describe "exists?" do
     it "can tell if it exists" do
       new_node = Neography::Node.create
-      new_node.exist?.should be_true 
+      new_node.exist?.should be_true
     end
 
     it "can tell if does not exists" do
@@ -97,19 +97,19 @@ describe Neography::Node do
     it "can tell two nodes are the same with equal?" do
       new_node = Neography::Node.create
       another_node = Neography::Node.load(new_node)
-      new_node.equal?(another_node).should be_true 
+      new_node.equal?(another_node).should be_true
     end
 
     it "can tell two nodes are the same with eql?" do
       new_node = Neography::Node.create
       another_node = Neography::Node.load(new_node)
-      new_node.eql?(another_node).should be_true 
+      new_node.eql?(another_node).should be_true
     end
 
     it "can tell two nodes are the same with ==" do
       new_node = Neography::Node.create
       another_node = Neography::Node.load(new_node)
-      (new_node == another_node).should be_true 
+      (new_node == another_node).should be_true
     end
   end
 

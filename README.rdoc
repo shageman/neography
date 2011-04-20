@@ -31,7 +31,7 @@ You can see the administration at: {Neo4j Web Admin}[http://neography.org]
 
   for use:
   json
-  httparty 
+  typhoeus
 
   for development:
   rspec 

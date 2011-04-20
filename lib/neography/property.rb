@@ -23,17 +23,17 @@ module Neography
         else
           neo_server.set_relationship_properties(self.neo_id, {k => value})
         end
-       
+
         new_ostruct_member(k) unless self.respond_to?(key)
 
       end
     end
 
 
-  def new_ostruct_member(name)
-    name = name.to_sym
-    unless self.respond_to?(name)
-      meta = class << self; self; end
+    def new_ostruct_member(name)
+      name = name.to_sym
+      unless self.respond_to?(name)
+        meta = class << self; self; end
       meta.send(:define_method, name) { @table[name] }
       meta.send(:define_method, "#{name}=") do |x| 
         @table[name] = x 
@@ -51,5 +51,5 @@ module Neography
     end
   end
 
-  end
+end
 end

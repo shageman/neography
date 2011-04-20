@@ -49,7 +49,7 @@ describe Neography::Rest do
 
       paths = @neo.traverse(@new_node1, "paths", {"relationships" => {"type"=> "friends", "direction" => "out"}, "depth" => 4} )
       paths.should_not be_nil
-  
+
       paths[0]["nodes"].should == [@new_node1["self"], @new_node2["self"]]
       paths[1]["nodes"].should == [@new_node1["self"], @new_node2["self"], @new_node3["self"]]
       paths[2]["nodes"].should == [@new_node1["self"], @new_node2["self"], @new_node3["self"], @new_node4["self"]]
@@ -81,7 +81,7 @@ describe Neography::Rest do
 
       paths = @neo.traverse(@new_node1, "paths", {"order" => "breadth first", "relationships" => {"type"=> "friends", "direction" => "out"}, "depth" => 4} )
       paths.should_not be_nil
-    
+
       paths[0]["nodes"].should == [@new_node1["self"], @new_node2["self"]]
       paths[1]["nodes"].should == [@new_node1["self"], @new_node2["self"], @new_node3["self"]]
       paths[2]["nodes"].should == [@new_node1["self"], @new_node2["self"], @new_node3["self"], @new_node4["self"]]
@@ -99,7 +99,7 @@ describe Neography::Rest do
 
       paths = @neo.traverse(@new_node1, "paths", {"order" => "breadth first", "uniqueness" => "node global", "relationships" => [{"type"=> "roommates", "direction" => "all"},{"type"=> "friends", "direction" => "out"}], "depth" => 4} )
       paths.should_not be_nil
-    
+
       paths[0]["nodes"].should == [@new_node1["self"], @new_node2["self"]]
       paths[1]["nodes"].should == [@new_node1["self"], @new_node2["self"], @new_node3["self"]]
       paths[2]["nodes"].should == [@new_node1["self"], @new_node2["self"], @new_node5["self"]]
@@ -115,7 +115,7 @@ describe Neography::Rest do
 
       paths = @neo.traverse(@new_node1,
                             "paths",
-                            {"relationships" => {"type"=> "friends", "direction" => "out"}, 
+                            {"relationships" => {"type"=> "friends", "direction" => "out"},
                              "depth" => 3,
                              "prune evaluator" => {"language" => "javascript",  "body" => "position.endNode().getProperty('age') < 21;"
                               }} )
@@ -131,7 +131,7 @@ describe Neography::Rest do
       @neo.create_relationship("friends", @new_node3, @new_node4)
       @neo.create_relationship("friends", @new_node4, @new_node5)
       @neo.create_relationship("friends", @new_node3, @new_node5)
-      nodes = @neo.traverse(@new_node1, "nodes", {"relationships" => {"type"=> "friends", "direction" => "out"}, 
+      nodes = @neo.traverse(@new_node1, "nodes", {"relationships" => {"type"=> "friends", "direction" => "out"},
                                                       "return filter" => {"language" => "builtin", "name" => "all"},
                                                       "depth" => 4} )
       nodes.should_not be_nil

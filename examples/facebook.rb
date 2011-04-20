@@ -14,9 +14,9 @@ def make_mutual_friends(node1, node2)
 end
 
 def suggestions_for(node)
-  @neo.traverse(node,"nodes", {"order" => "breadth first", 
-                                          "uniqueness" => "node global", 
-                                          "relationships" => {"type"=> "friends", "direction" => "in"}, 
+  @neo.traverse(node,"nodes", {"order" => "breadth first",
+                                          "uniqueness" => "node global",
+                                          "relationships" => {"type"=> "friends", "direction" => "in"},
                                           "return filter" => {
                                             "language" => "javascript",
                                             "body" => "position.length() == 2;"},

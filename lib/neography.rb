@@ -5,7 +5,7 @@ def find_and_require_user_defined_code
     Dir.open extensions_path do |dir|
       dir.entries.each do |file|
         if file.split('.').size > 1 && file.split('.').last == 'rb'
-          extension = File.join(File.expand_path(extensions_path), file) 
+          extension = File.join(File.expand_path(extensions_path), file)
           require(extension) && puts("Loaded Extension: #{extension}")
         end
       end
@@ -17,11 +17,12 @@ end
 
 DIRECTIONS = ["incoming", "in", "outgoing", "out", "all", "both"]
 
-require 'httparty'
+require 'typhoeus'
 require 'json'
 require 'logger'
 require 'ostruct'
 
+require 'ext/object.rb'
 require 'neography/config'
 require 'neography/rest'
 require 'neography/neography'

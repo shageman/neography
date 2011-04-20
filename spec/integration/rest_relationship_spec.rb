@@ -194,7 +194,7 @@ describe Neography::Rest do
       new_relationship = @neo.create_relationship("friends", new_node1, new_node2, {"since" => '10-1-2010', "met" => "college"})
       @neo.delete_relationship(new_relationship)
       relationships = @neo.get_node_relationships(new_node1)
-      relationships.should be_nil
+      relationships.should == []
     end
 
     it "returns nil if it tries to delete a relationship that does not exist" do
@@ -317,10 +317,10 @@ describe Neography::Rest do
       relationships[1].should be_nil
     end
 
-    it "returns nil if there are no relationships" do
+    it "returns empty arrat if there are no relationships" do
       new_node1 = @neo.create_node
       relationships = @neo.get_node_relationships(new_node1)
-      relationships.should be_nil
+      relationships.should == []
     end
   end
 

@@ -25,9 +25,9 @@ module Neography
 
     def rel?(dir=nil, type=nil)
       if DIRECTIONS.include?(dir.to_s)
-        !self.neo_server.get_node_relationships(self, dir, type).nil? 
+        !self.neo_server.get_node_relationships(self, dir, type).empty?
       else
-        !self.neo_server.get_node_relationships(self, type, dir).nil? 
+        !self.neo_server.get_node_relationships(self, type, dir).empty?
       end
     end
 

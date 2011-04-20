@@ -223,7 +223,6 @@ module Neography
         else
           node_relationships = get("/node/#{get_id(id)}/relationships/#{dir}/#{Array(types).join('&')}") || Array.new
         end
-        return nil if node_relationships.empty?
         node_relationships
       end
 

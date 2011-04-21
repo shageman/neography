@@ -66,45 +66,18 @@ module Neography
     end
 
     def create_nodes(nodes)
+      hydra = Typhoeus::Hydra.new
+
       nodes = Array.new(nodes) if nodes.kind_of? Fixnum
-      created_nodes = Array.new
+      requests = Array.new
       nodes.each do |node|
-        created_nodes <<  create_node(node)
+        options = { :body => node.to_json, :headers => {'Content-Type' => 'application/json'} }
+        request = request("/node", :post, options)
+        requests << request
+        hydra.queue request
       end
-      created_nodes
-    end
-
-    def create_nodes_threaded(nodes)
-      nodes = Array.new(nodes) if nodes.kind_of? Fixnum
-
-      node_queue = Queue.new
-      thread_pool = []
-      responses = Queue.new
-
-      nodes.each do |node|
-        node_queue.push node
-      end
-
-      [nodes.size, @max_threads].min.times do
-        thread_pool << Thread.new do
-          until node_queue.empty? do
-            node = node_queue.pop
-            if node.respond_to?(:each_pair)
-              responses.push( post("/node", { :body => node.to_json, :headers => {'Content-Type' => 'application/json'} } ) )
-            else
-              responses.push( post("/node") )
-            end
-          end
-          self.join
-        end
-      end
-
-      created_nodes = Array.new
-
-      while created_nodes.size < nodes.size
-        created_nodes << responses.pop
-      end
-      created_nodes
+      hydra.run
+      requests.map &:handled_response
     end
 
     #  This is not yet implemented in the REST API
@@ -378,6 +351,25 @@ module Neography
 
     def delete(path,options={})
       evaluate_response(Typhoeus::Request.delete(configuration + URI.encode(path), options.merge!(@authentication)))
+    end
+
+    def request(path, method, options={})
+      request = Typhoeus::Request.new(configuration + URI.encode(path), options.merge!(@authentication).merge(:method => method, :timeout => 100))
+      request.on_complete do |response|
+        if response.success?
+          evaluate_response(response)
+        elsif response.timed_out?
+          @logger.error "got a time out" if @log_enabled
+          nil
+        elsif response.code == 0
+          @logger.error response.curl_error_message if @log_enabled
+          nil
+        else
+          @logger.error "HTTP request failed: " + response.code.to_s if @log_enabled
+          nil
+        end
+      end
+      request
     end
 
     def get_id(id)

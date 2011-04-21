@@ -6,24 +6,14 @@ describe Neography::Rest do
   end
 
   describe "can create many nodes threaded" do
-    it "can create empty nodes threaded" do
-      new_nodes = @neo.create_nodes_threaded(2)
-      new_nodes.should_not be_nil
-      new_nodes.size.should == 2
-    end
-
-    it "is faster than non-threaded?" , :slow => true do
+    it "is faster than non-threaded?", :slow => true do
       Benchmark.bm do |x|
-        x.report("create 500 nodes         ") { @not_threaded = @neo.create_nodes(500) }
-        x.report("create 500 nodes threaded") { @threaded     = @neo.create_nodes_threaded(500) }
-        x.report("create 1000 nodes threaded") { @threaded2c   = @neo.create_nodes_threaded(1000) }
+        x.report("create 50 nodes          ") { @non_threaded50 = 50.times { @neo.create_node } }
+        x.report("create 50 nodes threaded ") { @threaded50     = @neo.create_nodes(50) }
+        x.report("create 100 nodes         ") { @non_threaded50 = 100.times { @neo.create_node } }
+        x.report("create 100 nodes threaded") { @threaded100    = @neo.create_nodes(100) }
       end
-
-      @not_threaded[99].should_not be_nil
-      @threaded[99].should_not be_nil
-      @threaded2c[199].should_not be_nil
     end
-
   end
 
   describe "can create many nodes" do

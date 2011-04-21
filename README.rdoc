@@ -135,19 +135,21 @@ To Use:
 
 Please see the specs for more examples.
 
-Experimental:
+Bulk operations use Typhoeus::Hydra for parallelizing requests:
+  nodes = @neo.get_nodes([17,86,397,33])                         # Get four nodes by their id
 
-  nodes = @neo.create_nodes(5)                                              # Create 5 empty nodes
-  nodes = @neo.create_nodes_threaded(5)                                     # Create 5 empty nodes using threads
-  nodes = @neo.create_node_nodes([{"age" => 31, "name" => "Max"},
-                                  {"age" => 24, "name" => "Alex"})          # Create two nodes with properties
-  nodes = @neo.create_node_nodes_threaded([{"age" => 31, "name" => "Max"},
-                                           {"age" => 24, "name" => "Alex"}) # Create two nodes with properties threaded
-  nodes = @neo.get_nodes([17,86,397,33])                                    # Get four nodes by their id
+  nodes = @neo.create_nodes(5)                                   # Create 5 empty nodes
+  @neo.create_nodes([{"age" => 31, "name" => "Max"},
+                     {"age" => 24, "name" => "Alex"})            # Create two nodes with properties
 
+  # Creating and getting multiple nodes
   one_set_nodes = @neo.create_nodes(3) 
   another_node = @neo.create_node("age" => 31, "name" => "Max")
-  nodes = @neo.get_nodes([one_set_nodes, another_node])                     # Get four nodes
+  nodes = @neo.get_nodes([one_set_nodes, another_node])          # Get four nodes
+
+  relationships = @neo.create_relationships(
+      [[:contact, nodes[0], nodes[1], {'since' => '2011-04-21'}]
+       [:friend, nodes[1], nodes[2]]])                           # Create two relationships with and without properties
 
 === Phase 2
 

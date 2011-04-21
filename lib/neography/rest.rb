@@ -69,7 +69,7 @@ module Neography
       hydra = Typhoeus::Hydra.new
 
       nodes = Array.new(nodes) if nodes.kind_of? Fixnum
-      requests = Array.new
+      requests = []
       nodes.each do |node|
         options = { :body => node.to_json, :headers => {'Content-Type' => 'application/json'} }
         request = request("/node", :post, options)
@@ -92,11 +92,17 @@ module Neography
     end
 
     def get_nodes(*nodes)
+      hydra = Typhoeus::Hydra.new
+
+      requests = []
       gotten_nodes = Array.new
       Array(nodes).flatten.each do |node|
-        gotten_nodes <<  get_node(node)
+        request = request("/node/#{get_id(node)}", :get)
+        requests << request
+        hydra.queue request
       end
-      gotten_nodes
+      hydra.run
+      requests.map &:handled_response
     end
 
     def reset_node_properties(id, properties)
@@ -142,6 +148,21 @@ module Neography
     def create_relationship(type, from, to, props = nil)
       options = { :body => {:to => self.configuration + "/node/#{get_id(to)}", :data => props, :type => type }.to_json, :headers => {'Content-Type' => 'application/json'} }
       post("/node/#{get_id(from)}/relationships", options)
+    end
+
+    def create_relationships(relationships)
+      hydra = Typhoeus::Hydra.new
+
+      requests = []
+      relationships.each do |relationship|
+        type, from, to, props = relationship
+        options = { :body => {:to => self.configuration + "/node/#{get_id(to)}", :data => props, :type => type }.to_json, :headers => {'Content-Type' => 'application/json'} }
+        request = request("/node/#{get_id(from)}/relationships", :post, options)
+        requests << request
+        hydra.queue request
+      end
+      hydra.run
+      requests.map &:handled_response
     end
 
     def get_relationship(id)

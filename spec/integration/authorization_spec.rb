@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), '..', 'spec_helper')
 
-describe Neography::Rest, :slow => true do
+describe Neography::Rest, :requires_atns_de_to_be_up => true do
   describe "basic authentication"  do
     describe "get_root" do
       it "can get the root node"do

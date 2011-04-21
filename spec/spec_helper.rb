@@ -9,7 +9,7 @@ FakeWeb.allow_net_connect = false
 # To test against a real database:
 # 1. Make sure empty database is running on your test neo4j server (bin/neo4j start)
 # 2. Uncomment the next two lines
-FakeWeb.clean_registry 
+FakeWeb.clean_registry
 FakeWeb.allow_net_connect = true
 
 # 3. If you want to see more, uncomment the next few lines
@@ -26,4 +26,5 @@ end
 
 RSpec.configure do |c|
   c.filter_run_excluding :slow => true
+  c.filter_run_excluding :requires_atns_de_to_be_up => true
 end
